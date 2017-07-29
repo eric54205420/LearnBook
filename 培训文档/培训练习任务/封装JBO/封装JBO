@@ -1,0 +1,40 @@
+		ASResultSet rs = null;//��ѯ���
+
+		String sCustomerType = "";//�ͻ�����
+		String sGroupFlag = "";//���ű�־
+		String sCustomerName = "";//�ͻ����
+		String sCertType = "";//֤������
+		String sCertID = "";//֤�����
+
+//定义
+		SqlObject so = null;
+		String sSql = "";//Sql���
+				
+
+		
+		//��ݼ��ſͻ������ȡ���ſͻ�����
+		//sCustomerType = Sqlca.getString("select CustomerType from CUSTOMER_INFO where CustomerID = '"+sCustomerID+"'");
+		
+		sCustomerType = "select CustomerType from CUSTOMER_INFO where CustomerID = :sCustomerID";
+		so = new SqlObject(sSql);
+		so.setParameter("CustomerID", sCustomerID);
+	
+		
+		if(sCustomerType == null) sCustomerType = "";
+		
+		//��ݼ��ų�Ա�����ȡ���ų�Ա��ơ�֤�����͡�֤�����
+		sSql = 	" select CustomerName,CertType,CertID "+
+				" from CUSTOMER_INFO "+
+				" where CustomerID = :sRelativeID ";
+		
+		rs = Sqlca.getASResultSet(new SqlObject(sSql).setParameter("CustomerID", sRelativeID));
+	//	rs = Sqlca.getASResultSet(sSql);	
+
+
+//封装JBO
+		sSql =  " update CUSTOMER_INFO set BelongGroupID = :sCustomerID "+
+				" where CustomerID = :sRelativeID ";
+		so = new SqlObject(sSql);
+		so.setParameter("BelongGroupID", sCustomerID);
+		so.setParameter("CustomerID", sRelativeID);
+		Sqlca.executeSQL(so);

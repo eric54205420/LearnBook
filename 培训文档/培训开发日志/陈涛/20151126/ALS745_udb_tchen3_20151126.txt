@@ -1,0 +1,3 @@
+//加权得分计算，在方法设置中的方法名为："学历加权得分1"
+//java类路径
+ALS745/src/com/amarsoft/app/lending/bizlets/getEducationScore2.java
